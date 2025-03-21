@@ -15,6 +15,7 @@ namespace Mission_11.API.Controllers
             _bookContext = temp;
         }
 
+        [HttpGet("AllBooks")]
         public IEnumerable<Book> GetBooks()
         {
             return _bookContext.Books.ToList();
