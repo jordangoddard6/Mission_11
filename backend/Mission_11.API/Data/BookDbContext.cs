@@ -8,6 +8,7 @@ namespace Mission_11.API.Data
         { 
         }
 
+        // Books Table
         public DbSet<Book> Books { get; set; }
     }
 }

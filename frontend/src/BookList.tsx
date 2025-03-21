@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Book } from './types/Book';
 
 function BookList() {
+  // Variables needed to keep track of information
   const [books, setBooks] = useState<Book[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -9,6 +10,7 @@ function BookList() {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [sortTitles, setSortTitles] = useState<boolean>(false);
 
+  // Fetch JSON data from API when needed and update variables
   useEffect(() => {
     const fetchBooks = async () => {
       const response = await fetch(
@@ -28,6 +30,7 @@ function BookList() {
       <h1>Book List</h1>
       <br />
       <div className="d-flex flex-column gap-4">
+        {/* Make a card for each book */}
         {books.map((b) => (
           <div id="projectCard" className="card p-3" key={b.bookID}>
             <h3 className="card-title">{b.title}</h3>
@@ -59,6 +62,8 @@ function BookList() {
           </div>
         ))}
       </div>
+
+      {/* Pagination buttons */}
       <div className="mt-4 d-flex justify-content-center gap-2">
         <button
           disabled={pageNum === 1}
@@ -84,6 +89,8 @@ function BookList() {
           Next
         </button>
       </div>
+
+      {/* User inputs: Results per page and sort by title */}
       <div className="mt-4 d-flex justify-content-center align-items-center gap-4">
         <label
           className="d-flex align-items-center"

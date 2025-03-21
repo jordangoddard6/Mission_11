@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BookDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("BookConnection")));
 
+// Create policy to allow traffic from port 3000 to access API
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
@@ -33,6 +34,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Enable port 3000 policy
 app.UseCors("AllowReactApp");
 
 app.UseHttpsRedirection();
