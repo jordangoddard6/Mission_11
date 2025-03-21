@@ -16,12 +16,25 @@ namespace Mission_11.API.Controllers
         }
 
         [HttpGet("AllBooks")]
-        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1)
+        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1, bool sortTitles = false)
         {
-            IEnumerable<Book> bookList = _bookContext.Books
-                .Skip((pageNum-1)*pageSize)
-                .Take(pageSize)
-                .ToList();
+            IEnumerable<Book> bookList;
+
+            if (sortTitles)
+            {
+                bookList = _bookContext.Books.OrderBy(x => x.Title)
+                    .Skip((pageNum - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
+            else
+            {
+                bookList = _bookContext.Books
+                    .Skip((pageNum-1)*pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            }
+
 
             int totalNumBooks = _bookContext.Books.Count();
 
