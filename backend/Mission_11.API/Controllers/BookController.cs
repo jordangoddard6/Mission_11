@@ -4,7 +4,7 @@ using Mission_11.API.Data;
 
 namespace Mission_11.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BookController : ControllerBase
     {
@@ -16,9 +16,22 @@ namespace Mission_11.API.Controllers
         }
 
         [HttpGet("AllBooks")]
-        public IEnumerable<Book> GetBooks()
+        public IActionResult GetBooks(int pageSize = 5, int pageNum = 1)
         {
-            return _bookContext.Books.ToList();
+            IEnumerable<Book> bookList = _bookContext.Books
+                .Skip((pageNum-1)*pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            int totalNumBooks = _bookContext.Books.Count();
+
+            var returnObject = new
+            {
+                books = bookList,
+                totalNumBooks = totalNumBooks
+            };
+
+            return Ok(returnObject);
         }
     }
 }
