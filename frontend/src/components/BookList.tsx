@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Book } from './types/Book';
+import { Book } from '../types/Book';
 
-function BookList() {
+function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   // Variables needed to keep track of information
   const [books, setBooks] = useState<Book[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
@@ -13,8 +13,12 @@ function BookList() {
   // Fetch JSON data from API when needed and update variables
   useEffect(() => {
     const fetchBooks = async () => {
+      const categoryParams = selectedCategories
+        .map((cat) => `bookCategories=${encodeURIComponent(cat)}`)
+        .join('&');
+
       const response = await fetch(
-        `https://localhost:5000/book/allbooks?pageSize=${pageSize}&pageNum=${pageNum}&sortTitles=${sortTitles}`
+        `https://localhost:5000/book/allbooks?pageSize=${pageSize}&pageNum=${pageNum}&sortTitles=${sortTitles}${selectedCategories.length ? `&${categoryParams}` : ''}`
       );
       const data = await response.json();
       setBooks(data.books);
@@ -23,12 +27,10 @@ function BookList() {
     };
 
     fetchBooks();
-  }, [pageSize, pageNum, totalBooks, sortTitles]);
+  }, [pageSize, pageNum, totalBooks, sortTitles, selectedCategories]);
 
   return (
     <>
-      <h1>Book List</h1>
-      <br />
       <div className="d-flex flex-column gap-4">
         {/* Make a card for each book */}
         {books.map((b) => (
@@ -58,6 +60,7 @@ function BookList() {
                   <strong>Price:</strong> {b.price}
                 </li>
               </ul>
+              <button className="btn btn-success">Buy</button>
             </div>
           </div>
         ))}
