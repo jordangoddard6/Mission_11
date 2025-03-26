@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
+import { useNavigate } from 'react-router-dom';
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   // Variables needed to keep track of information
@@ -9,6 +10,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [totalBooks, setTotalBooks] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [sortTitles, setSortTitles] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   // Fetch JSON data from API when needed and update variables
   useEffect(() => {
@@ -60,7 +62,12 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                   <strong>Price:</strong> {b.price}
                 </li>
               </ul>
-              <button className="btn btn-success">Buy</button>
+              <button
+                className="btn btn-success"
+                onClick={() => navigate(`/buy/${b.title}`)}
+              >
+                Buy
+              </button>
             </div>
           </div>
         ))}
