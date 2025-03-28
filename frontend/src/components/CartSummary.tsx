@@ -5,7 +5,7 @@ const CartSummary = () => {
   const navigate = useNavigate();
   const { cart } = useCart();
   const totalAmount = cart.reduce(
-    (sum, item) => sum + item.bookPrice * item.bookQuantity,
+    (sum, item) => sum + item.bookPrice * item.bookQuantity, // Multiply bookPrice by bookQuantity to get subtotals
     0
   );
 

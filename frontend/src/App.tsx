@@ -5,11 +5,12 @@ import BuyPage from './pages/BuyPage';
 import CartPage from './pages/CartPage';
 import { CartProvider } from './context/CartContext';
 
-// Website only displays the booklist component
 function App() {
   return (
     <>
       <CartProvider>
+        {' '}
+        // CartProvider tag carries cart information across all pages
         <Router>
           <Routes>
             <Route path="/" element={<BooksPage />}></Route>

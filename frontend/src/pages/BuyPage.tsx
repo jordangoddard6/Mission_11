@@ -6,11 +6,12 @@ import { useState } from 'react';
 
 function BuyPage() {
   const navigate = useNavigate();
-  const { bookTitle, bookId, bookPrice } = useParams();
+  const { bookTitle, bookId, bookPrice } = useParams(); // Book data needed to add to CartItem, passed in through route parameters
   const { addToCart } = useCart();
-  const [bookQuantity, setBookQuantity] = useState<number>(1);
+  const [bookQuantity, setBookQuantity] = useState<number>(1); // Track book quantity, default to 1
 
   const handleAddToCart = () => {
+    // Function for adding new CartItem to cart
     const newItem: CartItem = {
       bookId: Number(bookId),
       bookTitle: bookTitle || 'No Project Found',
@@ -31,7 +32,6 @@ function BuyPage() {
         <div>
           <input
             type="number"
-            placeholder="Enter quantity"
             value={bookQuantity}
             onChange={(x) => setBookQuantity(Number(x.target.value))}
           />

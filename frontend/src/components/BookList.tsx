@@ -3,7 +3,7 @@ import { Book } from '../types/Book';
 import { useNavigate } from 'react-router-dom';
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
-  // Variables needed to keep track of information
+  // Variables needed to keep track of information and create pagination and sorting
   const [books, setBooks] = useState<Book[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -17,7 +17,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     const fetchBooks = async () => {
       const categoryParams = selectedCategories
         .map((cat) => `bookCategories=${encodeURIComponent(cat)}`)
-        .join('&');
+        .join('&'); // Gather filtered categories and prepare for placement into URL
 
       const response = await fetch(
         `https://localhost:5000/book/allbooks?pageSize=${pageSize}&pageNum=${pageNum}&sortTitles=${sortTitles}${selectedCategories.length ? `&${categoryParams}` : ''}`
@@ -63,7 +63,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
                 </li>
               </ul>
               <button
-                className="btn btn-success"
+                className="btn btn-success" // Button will take appropriate data about book to BuyPage
                 onClick={() =>
                   navigate(`/buy/${b.title}/${b.bookID}/${b.price}`)
                 }

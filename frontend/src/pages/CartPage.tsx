@@ -9,7 +9,7 @@ function CartPage() {
   const { cart, removeFromCart } = useCart();
   const [showAlert, setShowAlert] = useState(false); // State to manage alert visibility
   const totalAmount = cart.reduce(
-    (sum, item) => sum + item.bookPrice * item.bookQuantity,
+    (sum, item) => sum + item.bookPrice * item.bookQuantity, // Multiply bookPrice by bookQuantity to get subtotals
     0
   );
 
@@ -26,7 +26,7 @@ function CartPage() {
       <div>
         <h2>Your Cart</h2>
 
-        {/* Success Alert */}
+        {/* Book Removal Success Alert */}
         {showAlert && (
           <div className="alert alert-success" role="alert">
             Book successfully removed from the cart!

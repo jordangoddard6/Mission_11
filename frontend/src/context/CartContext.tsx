@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useState } from 'react';
 import { CartItem } from '../types/CartItem';
 
 interface CartContextType {
+  // Everything needed for the cart to work
   cart: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (bookId: number) => void;
@@ -11,6 +12,7 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
+  // Define cart and all cart functions
   const [cart, setCart] = useState<CartItem[]>([]);
 
   const addToCart = (item: CartItem) => {
