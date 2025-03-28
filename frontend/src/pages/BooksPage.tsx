@@ -8,17 +8,20 @@ function BooksPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   return (
-    <div className="container mt-4">
+    <div className="container">
       <CartSummary />
       <WelcomeBand />
+      <br />
       <div className="row">
-        <div className="col-md-3">
-          <CategoryFilter
-            selectedCategories={selectedCategories}
-            setSelectedCategories={setSelectedCategories}
-          />
+        <div className="col">
+          <div className="position-sticky" style={{ top: '20px' }}>
+            <CategoryFilter
+              selectedCategories={selectedCategories}
+              setSelectedCategories={setSelectedCategories}
+            />
+          </div>
         </div>
-        <div className="col-md-9">
+        <div className="col">
           <BookList selectedCategories={selectedCategories} />
         </div>
       </div>

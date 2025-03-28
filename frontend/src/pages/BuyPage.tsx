@@ -22,20 +22,24 @@ function BuyPage() {
   };
   return (
     <>
-      <WelcomeBand />
-      <h2>Buy {bookTitle}</h2>
-      <h4>Price: {bookPrice}</h4>
-      <div>
-        <input
-          type="number"
-          placeholder="Enter quantity"
-          value={bookQuantity}
-          onChange={(x) => setBookQuantity(Number(x.target.value))}
-        />
-        <button onClick={handleAddToCart}>Add To Cart</button>
-      </div>
+      <div className="container">
+        <div className="row mb-3">
+          <WelcomeBand />
+        </div>
+        <h2>Buy {bookTitle}</h2>
+        <h4>Price: ${Number(bookPrice).toFixed(2)}</h4>
+        <div>
+          <input
+            type="number"
+            placeholder="Enter quantity"
+            value={bookQuantity}
+            onChange={(x) => setBookQuantity(Number(x.target.value))}
+          />
+          <button onClick={handleAddToCart}>Add To Cart</button>
+        </div>
 
-      <button onClick={() => navigate(-1)}>Go Back</button>
+        <button onClick={() => navigate(-1)}>Go Back</button>
+      </div>
     </>
   );
 }
