@@ -9,8 +9,7 @@ function App() {
   return (
     <>
       <CartProvider>
-        {' '}
-        // CartProvider tag carries cart information across all pages
+        {/* CartProvider tag carries cart information across all pages */}
         <Router>
           <Routes>
             <Route path="/" element={<BooksPage />}></Route>

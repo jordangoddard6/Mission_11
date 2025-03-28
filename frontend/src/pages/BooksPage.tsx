@@ -15,8 +15,7 @@ function BooksPage() {
       <div className="row">
         <div className="col">
           <div className="position-sticky" style={{ top: '20px' }}>
-            {' '}
-            // Sticky makes CategoryFilter always stay within sight on page
+            {/* Sticky makes CategoryFilter always stay within sight on page */}
             <CategoryFilter
               selectedCategories={selectedCategories}
               setSelectedCategories={setSelectedCategories}
