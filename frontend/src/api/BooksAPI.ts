@@ -5,6 +5,8 @@ interface FetchBooksResponse {
   totalNumBooks: number;
 }
 
+const API_URL = 'https://localhost:5000/book';
+
 export const fetchBooks = async (
   pageSize: number,
   pageNum: number,
@@ -17,7 +19,7 @@ export const fetchBooks = async (
       .join('&'); // Gather filtered categories and prepare for placement into URL
 
     const response = await fetch(
-      `https://localhost:5000/book/allbooks?pageSize=${pageSize}&pageNum=${pageNum}&sortTitles=${sortTitles}${selectedCategories.length ? `&${categoryParams}` : ''}`
+      `${API_URL}/allbooks?pageSize=${pageSize}&pageNum=${pageNum}&sortTitles=${sortTitles}${selectedCategories.length ? `&${categoryParams}` : ''}`
     );
 
     if (!response.ok) {
@@ -26,6 +28,27 @@ export const fetchBooks = async (
     return await response.json();
   } catch (error) {
     console.error('Error fetching books:', error);
+    throw error;
+  }
+};
+
+export const addBook = async (newBook: Book): Promise<Book> => {
+  try {
+    const response = await fetch(`${API_URL}/AddBook`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newBook),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add book');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error adding book:', error);
     throw error;
   }
 };

@@ -1,17 +1,25 @@
 import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import { fetchBooks } from '../api/BooksAPI';
+import Pagination from '../components/Pagination';
+import NewBookForm from '../components/NewBookForm';
 
 const AdminBooksPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [pageSize, setPageSize] = useState<number>(5);
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [sortTitles, setSortTitles] = useState<boolean>(false);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     const loadBooks = async () => {
       try {
-        const data = await fetchBooks(10, 1, false, []);
+        const data = await fetchBooks(pageSize, pageNum, sortTitles, []);
         setBooks(data.books);
+        setTotalPages(Math.ceil(data.totalNumBooks / pageSize));
       } catch (error) {
         setError((error as Error).message);
       } finally {
@@ -20,7 +28,7 @@ const AdminBooksPage = () => {
     };
 
     loadBooks();
-  }, []);
+  }, [pageNum, pageSize, sortTitles]);
 
   if (loading) return <p>Loading books...</p>;
   if (error) return <p className="text-red-500">Error: {error}</p>;
@@ -28,8 +36,29 @@ const AdminBooksPage = () => {
   return (
     <div>
       <h1>Admin - Books</h1>
-      <table>
-        <thead>
+
+      {!showForm && (
+        <button
+          className="btn btn-success mb-3"
+          onClick={() => setShowForm(true)}
+        >
+          Add Book
+        </button>
+      )}
+
+      {showForm && (
+        <NewBookForm
+          onSuccess={() => {
+            setShowForm(false);
+            fetchBooks(pageSize, pageNum, sortTitles, []).then((data) =>
+              setBooks(data.books)
+            );
+          }}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+      <table className="table table-bordered table-striped">
+        <thead className="table-dark">
           <tr>
             <th>ID</th>
             <th>Title</th>
@@ -54,11 +83,26 @@ const AdminBooksPage = () => {
               <td>{b.classification}</td>
               <td>{b.category}</td>
               <td>{b.pageCount}</td>
-              <td>{b.price}</td>
+              <td>${b.price}</td>
+              <td>
+                <button className="btn btn-primary btn-sm w-100 mb-1">
+                  Edit
+                </button>
+                <button className="btn btn-danger btn-sm w-100">Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <Pagination
+        pageNum={pageNum}
+        pageSize={pageSize}
+        totalPages={totalPages}
+        sortTitles={sortTitles}
+        onPageChange={setPageNum}
+        onPageSizeChange={setPageSize}
+        onSortChange={setSortTitles}
+      />
     </div>
   );
 };

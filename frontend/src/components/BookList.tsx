@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Book } from '../types/Book';
 import { useNavigate } from 'react-router-dom';
 import { fetchBooks } from '../api/BooksAPI';
+import Pagination from './Pagination';
 
 function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   // Variables needed to keep track of information and create pagination and sorting
@@ -84,68 +85,15 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
           </div>
         ))}
       </div>
-
-      {/* Pagination buttons */}
-      <div className="mt-4 d-flex justify-content-center gap-2">
-        <button
-          disabled={pageNum === 1}
-          onClick={() => setPageNum(pageNum - 1)}
-        >
-          Previous
-        </button>
-
-        {[...Array(totalPages)].map((_, index) => (
-          <button
-            key={index + 1}
-            onClick={() => setPageNum(index + 1)}
-            disabled={pageNum === index + 1}
-          >
-            {index + 1}
-          </button>
-        ))}
-
-        <button
-          disabled={pageNum === totalPages}
-          onClick={() => setPageNum(pageNum + 1)}
-        >
-          Next
-        </button>
-      </div>
-
-      {/* User inputs: Results per page and sort by title */}
-      <div className="mt-4 d-flex justify-content-center align-items-center gap-4">
-        <label
-          className="d-flex align-items-center"
-          style={{ whiteSpace: 'nowrap', minWidth: '180px' }}
-        >
-          Results per page:
-          <select
-            className="form-select ms-2"
-            value={pageSize}
-            onChange={(p) => {
-              setPageSize(Number(p.target.value));
-              setPageNum(1);
-            }}
-            style={{ width: '70px' }}
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-          </select>
-        </label>
-
-        <label
-          className="d-flex align-items-center ms-3"
-          style={{ whiteSpace: 'nowrap' }}
-        >
-          Sort by Title?
-          <input
-            type="checkbox"
-            className="form-check-input ms-2"
-            checked={sortTitles}
-            onChange={(cb) => setSortTitles(Boolean(cb.target.checked))}
-          />
-        </label>
-      </div>
+      <Pagination
+        pageNum={pageNum}
+        pageSize={pageSize}
+        totalPages={totalPages}
+        sortTitles={sortTitles}
+        onPageChange={setPageNum}
+        onPageSizeChange={setPageSize}
+        onSortChange={setSortTitles}
+      />
     </>
   );
 }
