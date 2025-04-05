@@ -83,10 +83,10 @@ namespace Mission_11.API.Controllers
             existingBook.Author = updatedBook.Author;
             existingBook.Publisher = updatedBook.Publisher;
             existingBook.ISBN = updatedBook.ISBN;
-            existingBook.Classification = existingBook.Classification;
-            existingBook.Category = existingBook.Category;
-            existingBook.PageCount = existingBook.PageCount;
-            existingBook.Price = existingBook.Price;
+            existingBook.Classification = updatedBook.Classification;
+            existingBook.Category = updatedBook.Category;
+            existingBook.PageCount = updatedBook.PageCount;
+            existingBook.Price = updatedBook.Price;
 
             _bookContext.Books.Update(existingBook);
             _bookContext.SaveChanges();
